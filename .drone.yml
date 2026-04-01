@@ -12,6 +12,8 @@ services:
       - "dockerd"
       - "--host=tcp://0.0.0.0:2375"
       - "--tls=false"
+      - "--dns=46.38.225.230"
+      - "--dns=46.38.252.230"
     volumes:
       - name: docker-storage
         path: /var/lib/docker
@@ -39,6 +41,7 @@ steps:
       - export SHORT_SHA=$(echo $DRONE_COMMIT_SHA | cut -c1-8)
       - |
         docker buildx build \
+          --network host \
           --platform linux/amd64,linux/arm64 \
           -t $DOCKER_REPO:latest \
           -t $DOCKER_REPO:$SHORT_SHA \
@@ -60,6 +63,8 @@ services:
       - "dockerd"
       - "--host=tcp://0.0.0.0:2375"
       - "--tls=false"
+      - "--dns=46.38.225.230"
+      - "--dns=46.38.252.230"
     volumes:
       - name: docker-storage
         path: /var/lib/docker
@@ -83,10 +88,11 @@ steps:
       - until docker info >/dev/null 2>&1; do echo "Waiting for docker daemon..."; sleep 3; done
       - docker info
       - echo "$GITEA_TOKEN" | docker login "$GITEA_REGISTRY" -u "$GITEA_USER" --password-stdin
-      - docker buildx create --use --name multiarch-builder --driver docker-container || true
+      - docker buildx create --use --name multiarch-builder --driver docker-container --driver-opt network=host || true
       - export SHORT_SHA=$(echo $DRONE_COMMIT_SHA | cut -c1-8)
       - |
         docker buildx build \
+          --network host \
           --platform linux/amd64,linux/arm64 \
           --build-arg BUILDKIT_INLINE_CACHE=1 \
           -t $DOCKER_REPO:$DRONE_TAG \
@@ -114,6 +120,8 @@ services:
       - "dockerd"
       - "--host=tcp://0.0.0.0:2375"
       - "--tls=false"
+      - "--dns=46.38.225.230"
+      - "--dns=46.38.252.230"
     volumes:
       - name: docker-storage
         path: /var/lib/docker
@@ -137,10 +145,11 @@ steps:
       - until docker info >/dev/null 2>&1; do echo "Waiting for docker daemon..."; sleep 3; done
       - docker info
       - echo "$GITEA_TOKEN" | docker login "$GITEA_REGISTRY" -u "$GITEA_USER" --password-stdin
-      - docker buildx create --use --name multiarch-builder --driver docker-container || true
+      - docker buildx create --use --name multiarch-builder --driver docker-container --driver-opt network=host || true
       - export SHORT_SHA=$(echo $DRONE_COMMIT_SHA | cut -c1-8)
       - |
         docker buildx build \
+          --network host \
           --platform linux/amd64,linux/arm64 \
           -t $DOCKER_REPO:dev-$DRONE_BRANCH \
           -t $DOCKER_REPO:dev-$SHORT_SHA \
