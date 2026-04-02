@@ -1,16 +1,13 @@
 FROM debian:bookworm-slim
 
-ENV DEBIAN_FRONTEND=noninteractive
-
+# Install exim4
+ENV DEBIAN_FRONTEND noninteractive
 RUN set -ex; \
     apt-get update; \
-    apt-get install -y --no-install-recommends exim4-daemon-light; \
-    apt-get clean; \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y exim4-daemon-light; \
+    apt-get clean
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
 EXPOSE 25/tcp
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["exim", "-bdf", "-v", "-q30m"]
+ENTRYPOINT [ "docker-entrypoint.sh" ]
+CMD [ "exim", "-bdf", "-v", "-q30m" ]
