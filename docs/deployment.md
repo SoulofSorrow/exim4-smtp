@@ -26,14 +26,12 @@ Both workflows have the same triggers: `push` to `main`, tags `v*.*.*`,
 
 ## Image tags (`docker/metadata-action@v5`)
 
-| Rule | Example |
+| Event | Image tags |
 | --- | --- |
-| `type=ref,event=branch` | `main` |
-| `type=ref,event=pr` | `pr-12` |
-| `type=semver,pattern={{version}}` | `1.2.3` |
-| `type=semver,pattern={{major}}.{{minor}}` | `1.2` |
-| `type=sha` | `sha-<short>` |
-| `type=raw,value=latest,enable={{is_default_branch}}` | `latest` |
+| Push to a branch (e.g. `main`), manual run | `sha-<short>` only |
+| Release tag `v1.2.3` | `1.2.3`, `latest`, `sha-<short>` |
+| Prerelease tag `v1.2.3-rc1` | `1.2.3-rc1`, `sha-<short>` |
+| Pull request | built, not pushed |
 
 ## Release
 
