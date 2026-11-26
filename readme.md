@@ -71,3 +71,8 @@ All environment variables are optional.
 
 > **Note:** If you set `RELAY_HOST`, you should also set `RELAY_PORT`,
 > `RELAY_USERNAME`, and `RELAY_PASSWORD`, otherwise authentication will likely fail.
+
+## Documentation
+
+- [`docs/`](docs/README.md): architecture, configuration and CI details.
+- [`AGENTS.md`](AGENTS.md): instructions for AI coding agents.
