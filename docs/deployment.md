@@ -7,6 +7,10 @@
 
 ## CI workflows
 
+Job order: the check jobs (`lint`) run first. The image job `build-and-push` has `needs: [lint]` and starts only when all of them pass; on pull requests it builds without pushing.
+
+Emulation: `docker/setup-qemu-action` is pinned to `tonistiigi/binfmt:qemu-v9.2.2`; with `latest` (QEMU 10) Node crashed with `Illegal instruction` in the arm64 build and the job hung. Job `build-and-push` has `timeout-minutes: 45`.
+
 Both workflows have the same triggers: `push` to `main`, tags `v*.*.*`,
 `pull_request` to `main`, `workflow_dispatch`. Both have jobs `lint` and
 `build-and-push`. Pull requests build only; push and login happen only when
