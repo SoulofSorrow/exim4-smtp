@@ -7,6 +7,8 @@
 
 ## CI workflows
 
+Job order: the check jobs (`lint`) run first. The image job `build-and-push` has `needs: [lint]` and starts only when all of them pass; on pull requests it builds without pushing.
+
 Both workflows have the same triggers: `push` to `main`, tags `v*.*.*`,
 `pull_request` to `main`, `workflow_dispatch`. Both have jobs `lint` and
 `build-and-push`. Pull requests build only; push and login happen only when
