@@ -18,7 +18,7 @@ Both workflows have the same triggers: `push` to `main`, tags `v*.*.*`,
 | Image name | `<registry>/<owner>/<repo>` (`github.repository`) | same |
 | Lint | `shellcheck docker-entrypoint.sh`, `hadolint dockerfile` (installed in the job, container `catthehacker/ubuntu:act-latest`) | `ludeeus/action-shellcheck@master`, `hadolint/hadolint-action@v3.1.0` |
 | Docker | `docker:27-dind` service, `DOCKER_HOST=tcp://dind:2375`, Buildx `network=host` | hosted runner, GHA cache |
-| Login | `secrets.REGISTRY_USERNAME` or `github.actor`; `secrets.REGISTRY_PASSWORD` or `secrets.GITHUB_TOKEN` | `github.actor`, `secrets.GITHUB_TOKEN` |
+| Login | `secrets.GITEA_USERNAME` or `github.actor`; `secrets.PACKAGES_TOKEN` (user-level secret) | `github.actor`, `secrets.GITHUB_TOKEN` |
 
 ## Image tags (`docker/metadata-action@v5`)
 
